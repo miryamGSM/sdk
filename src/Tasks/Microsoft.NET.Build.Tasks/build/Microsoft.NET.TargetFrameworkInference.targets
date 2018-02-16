@@ -93,13 +93,15 @@ Copyright (c) .NET Foundation. All rights reserved.
           BeforeTargets="_CheckForInvalidConfigurationAndPlatform;RunResolvePackageDependencies;GetReferenceAssemblyPaths"
           Condition="'$(_UnsupportedTargetFrameworkError)' == 'true'"
           >
-    <NETSdkError Condition="!$(TargetFramework.Contains(';'))"
-                 ResourceName="CannotInferTargetFrameworkIdentiferAndVersion"
-                 FormatArguments="$([MSBuild]::Escape('$(TargetFramework)'))" />
+    <NETSdkMessage Condition="!$(TargetFramework.Contains(';'))"
+                   Severity="Error"
+                   ResourceName="CannotInferTargetFrameworkIdentiferAndVersion"
+                   FormatArguments="$([MSBuild]::Escape('$(TargetFramework)'))" />
     
-    <NETSdkError Condition="$(TargetFramework.Contains(';'))"
-                 ResourceName="TargetFrameworkWithSemicolon"
-                 FormatArguments="$([MSBuild]::Escape('$(TargetFramework)'))" />
+    <NETSdkMessage Condition="$(TargetFramework.Contains(';'))"
+                   Severity="Error"
+                   ResourceName="TargetFrameworkWithSemicolon"
+                   FormatArguments="$([MSBuild]::Escape('$(TargetFramework)'))" />
   </Target>
 
   <Target Name="_CollectTargetFrameworkForTelemetry" AfterTargets="_CheckForUnsupportedTargetFramework">
@@ -134,9 +136,10 @@ Copyright (c) .NET Foundation. All rights reserved.
   <Target Name="_CheckForUnsupportedNETCoreVersion" BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
           Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' And '$(NETCoreAppMaximumVersion)' != ''">
 
-    <NETSdkError Condition="'$(_TargetFrameworkVersionWithoutV)' > '$(NETCoreAppMaximumVersion)'"
-                 ResourceName="UnsupportedTargetFrameworkVersion"
-                 FormatArguments=".NET Core;$(_TargetFrameworkVersionWithoutV);$(NETCoreAppMaximumVersion)"
+    <NETSdkMessage Condition="'$(_TargetFrameworkVersionWithoutV)' > '$(NETCoreAppMaximumVersion)'"
+                   Severity="Error"
+                   ResourceName="UnsupportedTargetFrameworkVersion"
+                   FormatArguments=".NET Core;$(_TargetFrameworkVersionWithoutV);$(NETCoreAppMaximumVersion)"
       />
   </Target>
 
@@ -147,9 +150,10 @@ Copyright (c) .NET Foundation. All rights reserved.
   <Target Name="_CheckForUnsupportedNETStandardVersion" BeforeTargets="_CheckForInvalidConfigurationAndPlatform;Restore;CollectPackageReferences"
           Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' And '$(NETStandardMaximumVersion)' != ''">
 
-    <NETSdkError Condition="'$(_TargetFrameworkVersionWithoutV)' > '$(NETStandardMaximumVersion)'"
-                 ResourceName="UnsupportedTargetFrameworkVersion"
-                 FormatArguments=".NET Standard;$(_TargetFrameworkVersionWithoutV);$(NETStandardMaximumVersion)"
+    <NETSdkMessage Condition="'$(_TargetFrameworkVersionWithoutV)' > '$(NETStandardMaximumVersion)'"
+                   Severity="Error"
+                   ResourceName="UnsupportedTargetFrameworkVersion"
+                   FormatArguments=".NET Standard;$(_TargetFrameworkVersionWithoutV);$(NETStandardMaximumVersion)"
       />    
   </Target>
 

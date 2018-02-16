@@ -19,7 +19,7 @@ Copyright (c) .NET Foundation. All rights reserved.
   </PropertyGroup>
 
   <UsingTask TaskName="GetDependsOnNETStandard" AssemblyFile="$(MicrosoftNETBuildExtensionsTasksAssembly)" />
-  <UsingTask TaskName="NETBuildExtensionsError" AssemblyFile="$(MicrosoftNETBuildExtensionsTasksAssembly)" />
+  <UsingTask TaskName="NETBuildExtensionsMessage" AssemblyFile="$(MicrosoftNETBuildExtensionsTasksAssembly)" />
   <Target Name="ImplicitlyExpandNETStandardFacades"
           Condition="'$(ImplicitlyExpandNETStandardFacades)' == 'true'"
           BeforeTargets="_HandlePackageFileConflicts;ResolveAssemblyReferences">
@@ -62,8 +62,9 @@ Copyright (c) .NET Foundation. All rights reserved.
     <PropertyGroup>
       <_UsingOldSDK Condition="'$(UsingMicrosoftNETSdk)' != 'true' AND ('$(TargetFramework)' != '' OR '$(TargetFrameworks)' != '')">true</_UsingOldSDK>
     </PropertyGroup>
-    <NETBuildExtensionsError Condition="'$(DependsOnNETStandard)' == 'true' AND '$(NETStandardInbox)' != 'true' AND '$(_UsingOldSDK)' == 'true'"
-                             ResourceName="UnsupportedSDKVersionForNetStandard20"/>
+    <NETBuildExtensionsMessage Condition="'$(DependsOnNETStandard)' == 'true' AND '$(NETStandardInbox)' != 'true' AND '$(_UsingOldSDK)' == 'true'"
+                               Severity="Error"
+                               ResourceName="UnsupportedSDKVersionForNetStandard20"/>
 
     <!--
       Just like references from packages, RAR should not waste time finding dependencies and related files for libraries added by this

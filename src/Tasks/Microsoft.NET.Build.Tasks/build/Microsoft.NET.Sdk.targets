@@ -300,9 +300,10 @@ Copyright (c) .NET Foundation. All rights reserved.
       <AppHostDestinationDirectoryPath>$(BaseIntermediateOutputPath)\$(TargetFramework)\$(RuntimeIdentifier)\host</AppHostDestinationDirectoryPath>
     </PropertyGroup>
 
-    <NETSdkError Condition="'@(NativeRestoredAppHostNETCore->Count())' &gt; 1"
-            ResourceName="MultipleFilesResolved"
-            FormatArguments="$(_DotNetAppHostExecutableName)" />
+    <NETSdkMessage Condition="'@(NativeRestoredAppHostNETCore->Count())' &gt; 1"
+                   Severity="Error"
+                   ResourceName="MultipleFilesResolved"
+                   FormatArguments="$(_DotNetAppHostExecutableName)" />
     
     <EmbedAppNameInHost   AppHostSourcePath="@(NativeRestoredAppHostNETCore)"
                           AppHostDestinationDirectoryPath="$(AppHostDestinationDirectoryPath)"
@@ -317,9 +318,10 @@ Copyright (c) .NET Foundation. All rights reserved.
                             Condition="'%(NativeCopyLocalItems.FileName)%(NativeCopyLocalItems.Extension)' == '$(_DotNetHostExecutableName)'" />
     </ItemGroup>
     
-    <NETSdkError Condition="'@(NativeAppHostNETCore->Count())' &gt; 1"
-                ResourceName="MultipleFilesResolved"
-                FormatArguments="@(NativeAppHostNETCore)" />
+    <NETSdkMessage Condition="'@(NativeAppHostNETCore->Count())' &gt; 1"
+                   Severity="Error"
+                   ResourceName="MultipleFilesResolved"
+                   FormatArguments="@(NativeAppHostNETCore)" />
     
     <ItemGroup Condition="'@(NativeAppHostNETCore)' != '' ">
       <NativeNETCoreCopyLocalItems Include="@(NativeAppHostNETCore)">

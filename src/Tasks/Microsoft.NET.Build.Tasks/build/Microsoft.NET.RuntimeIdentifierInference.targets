@@ -113,8 +113,9 @@ Copyright (c) .NET Foundation. All rights reserved.
           BeforeTargets="_CheckForInvalidConfigurationAndPlatform"
           Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' and '$(HasRuntimeOutput)' == 'true'">
     
-    <NETSdkError Condition="'$(SelfContained)' == 'true' and '$(RuntimeIdentifier)' == ''"
-                 ResourceName="CannotHaveSelfContainedWithoutRuntimeIdentifier" />
+    <NETSdkMessage Condition="'$(SelfContained)' == 'true' and '$(RuntimeIdentifier)' == ''"
+                   Severity="Error"
+                   ResourceName="CannotHaveSelfContainedWithoutRuntimeIdentifier" />
     
   </Target>
 
@@ -122,10 +123,18 @@ Copyright (c) .NET Foundation. All rights reserved.
           BeforeTargets="_CheckForInvalidConfigurationAndPlatform"
           Condition="'$(RuntimeIdentifier)' != '' and '$(PlatformTarget)' != ''">
 
-    <NETSdkError Condition="'$(PlatformTarget)' != 'AnyCPU' and !$(RuntimeIdentifier.ToUpper().Contains($(PlatformTarget.ToUpper())))"
-                 ResourceName="CannotHaveRuntimeIdentifierPlatformMismatchPlatformTarget"
-                 FormatArguments="$(RuntimeIdentifier);$(PlatformTarget)" />
+    <NETSdkMessage Condition="'$(PlatformTarget)' != 'AnyCPU' and !$(RuntimeIdentifier.ToUpper().Contains($(PlatformTarget.ToUpper())))"
+                   Severity="Error"
+                   ResourceName="CannotHaveRuntimeIdentifierPlatformMismatchPlatformTarget"
+                   FormatArguments="$(RuntimeIdentifier);$(PlatformTarget)" />
 
+  </Target>
+
+  <Target Name="_CheckForNETCoreSdkIsPreview"
+          BeforeTargets="_CheckForInvalidConfigurationAndPlatform">
+    <NETSdkMessage Condition=" '$(_NETCoreSdkIsPreview)' == 'true' "
+                   Importance="High"
+                   ResourceName="UsingPreviewSdkWarning" />
   </Target>
 
   <PropertyGroup>

@@ -35,8 +35,9 @@ Copyright (c) .NET Foundation. All rights reserved.
 
   <Target Name="PackTool" DependsOnTargets="GenerateToolsSettingsFileFromBuildProperty;Publish" Condition=" '$(PackAsTool)' == 'true' ">
     
-    <NETSdkError Condition="'$(SelfContained)' == 'true'"
-                 ResourceName="PackAsToolCannotSupportSelfContained" />
+    <NETSdkMessage Condition="'$(SelfContained)' == 'true'"
+                   Severity="Error"
+                   ResourceName="PackAsToolCannotSupportSelfContained" />
 
     <ItemGroup>
         <_GeneratedFiles Include="$(PublishDepsFilePath)"/>

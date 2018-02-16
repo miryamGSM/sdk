@@ -41,21 +41,25 @@ Copyright (c) .NET Foundation. All rights reserved.
                                              Condition="'%(CrossgenResolvedAssembliesToPublish.Filename)'=='libclrjit'" />
     </ItemGroup>
 
-    <NETSdkError Condition="'@(_CoreclrResolvedPath->Count())' &gt; 1"
-                 ResourceName="MultipleFilesResolved"
-                 FormatArguments="coreclr" />
+    <NETSdkMessage Condition="'@(_CoreclrResolvedPath->Count())' &gt; 1"
+                   Severity="Error"
+                   ResourceName="MultipleFilesResolved"
+                   FormatArguments="coreclr" />
 
-    <NETSdkError Condition="'@(_CoreclrResolvedPath)'== ''"
-                 ResourceName="UnableToFindResolvedPath"
-                 FormatArguments="coreclr" />
+    <NETSdkMessage Condition="'@(_CoreclrResolvedPath)'== ''"
+                   Severity="Error"
+                   ResourceName="UnableToFindResolvedPath"
+                   FormatArguments="coreclr" />
 
-    <NETSdkError Condition="'@(_JitResolvedPath->Count())' &gt; 1"
-                 ResourceName="MultipleFilesResolved"
-                 FormatArguments="jit" />
+    <NETSdkMessage Condition="'@(_JitResolvedPath->Count())' &gt; 1"
+                   Severity="Error"
+                   ResourceName="MultipleFilesResolved"
+                   FormatArguments="jit" />
 
-    <NETSdkError Condition="'@(_JitResolvedPath)'== ''"
-                 ResourceName="UnableToFindResolvedPath"
-                 FormatArguments="jit" />
+    <NETSdkMessage Condition="'@(_JitResolvedPath)'== ''"
+                   Severity="Error"
+                   ResourceName="UnableToFindResolvedPath"
+                   FormatArguments="jit" />
 
     <!-- Get the crossgen and jit path-->
     <PropertyGroup>
@@ -69,9 +73,10 @@ Copyright (c) .NET Foundation. All rights reserved.
       <Crossgen Condition="'$(OS)' == 'Windows_NT'">$([System.IO.Path]::Combine($(CrossgenDir),"crossgen.exe"))</Crossgen>
     </PropertyGroup>
 
-    <NETSdkError Condition="!Exists($(Crossgen))"
-                 ResourceName="UnableToFindResolvedPath"
-                 FormatArguments="$(Crossgen)" />
+    <NETSdkMessage Condition="!Exists($(Crossgen))"
+                   Severity="Error"
+                   ResourceName="UnableToFindResolvedPath"
+                   FormatArguments="$(Crossgen)" />
 
     <!-- Copy crossgen into the netcoreapp folder to ensure it can load Microsoft.DiaSymReader.Native when creating PDBs -->
     <Copy SourceFiles="$(Crossgen)"

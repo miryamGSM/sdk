@@ -220,15 +220,18 @@ Copyright (c) .NET Foundation. All rights reserved.
       <SkipUnchangedFiles Condition="'$(SkipUnchangedFiles)' == ''">true</SkipUnchangedFiles>
     </PropertyGroup>
 
-   <NETSdkError Condition="'2.0' > '$(_TargetFrameworkVersionWithoutV)'"
-                 ResourceName="NU1008"
-                 FormatArguments="$(TargetFrameworkMoniker)"/>
+   <NETSdkMessage Condition="'2.0' > '$(_TargetFrameworkVersionWithoutV)'"
+                  Severity="Error"
+                  ResourceName="NU1008"
+                  FormatArguments="$(TargetFrameworkMoniker)"/>
 
-    <NETSdkError Condition="'$(RuntimeIdentifier)' =='' and '$(_PureManagedAssets)' == ''"
-                 ResourceName="RuntimeIdentifierWasNotSpecified"/>
+    <NETSdkMessage Condition="'$(RuntimeIdentifier)' =='' and '$(_PureManagedAssets)' == ''"
+                   Severity="Error"
+                   ResourceName="RuntimeIdentifierWasNotSpecified"/>
 
-    <NETSdkError Condition="'$(_TFM)' ==''"
-                 ResourceName="AtLeastOneTargetFrameworkMustBeSpecified"/>
+    <NETSdkMessage Condition="'$(_TFM)' ==''"
+                   Severity="Error"
+                   ResourceName="AtLeastOneTargetFrameworkMustBeSpecified"/>
       
     <PropertyGroup>
       <DefaultComposeDir>$(UserProfileRuntimeStorePath)</DefaultComposeDir>
@@ -262,9 +265,10 @@ Copyright (c) .NET Foundation. All rights reserved.
       <CreateProfilingSymbols Condition="'$(CreateProfilingSymbols)' == ''">true</CreateProfilingSymbols>
     </PropertyGroup>
 
-    <NETSdkError Condition="Exists($(ComposeWorkingDir))"
-                 ResourceName="FolderAlreadyExists"
-                 FormatArguments="$(ComposeWorkingDir)" />
+    <NETSdkMessage Condition="Exists($(ComposeWorkingDir))"
+                   ResourceName="FolderAlreadyExists"
+                   Severity="Error"
+                   FormatArguments="$(ComposeWorkingDir)" />
 
     <MakeDir Directories="$(PublishDir)" />
     <MakeDir  Directories="$(StoreStagingDir)"/>
